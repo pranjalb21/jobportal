@@ -14,6 +14,23 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
     if (!user) {
         return next(new ErrorHandler(`Invalid token.`, 400));
     }
-    req.user = user
+    req.user = user;
     next();
 });
+
+export const isAuthorized = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return next(
+                new ErrorHandler(
+                    `${
+                        req.user.role[0].toUpperCase() +
+                        req.user.role.slice(1, req.user.role.length)
+                    } not allowed to access this resource.`,
+                    400
+                )
+            );
+        }
+        next();
+    };
+};

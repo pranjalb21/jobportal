@@ -33,9 +33,11 @@ app.use(
     })
 );
 
-import userRouter from "./routes/user.router.js";
+import userRouter from "./routes/user.routes.js";
+import jobRouter from "./routes/job.routes.js";
 
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/job", jobRouter);
 
 dbconnect();
 app.use(errorMiddleware);
