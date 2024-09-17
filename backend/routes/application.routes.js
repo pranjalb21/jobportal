@@ -14,7 +14,7 @@ router
     .get(
         "/employer/jobs",
         verifyJwt,
-        isAuthorized("employee"),
+        isAuthorized("employer"),
         employerGetAllApplication
     )
     .get(
