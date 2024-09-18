@@ -57,6 +57,10 @@ const jobSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
+    newsLetterSent: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 export const Job = mongoose.model("Job", jobSchema);

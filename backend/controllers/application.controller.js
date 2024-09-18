@@ -111,5 +111,50 @@ export const applicantGetAllApplication = asyncHandler(
         });
     }
 );
-export const deleteApplication = asyncHandler(async (req, res, next) => {});
+export const deleteApplication = asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    if(!mongoose.isValidObjectId(id)){
+        return next(new ErrorHandler(`Invalid application.`, 400));
+    }
+    const application = await Application.findById(id);
+    if (!application) {
+        return next(new ErrorHandler(`Invalid application.`, 400));
+    }
+    const { role } = req.user;
+    switch (role) {
+        case "employer":
+            if (req.user._id.equals(application.employerInfo.employerId)) {
+                application.deletedBy.employer = true;
+                await application.save();
+            }else{
+                return next(new ErrorHandler(`You are not the owner of this application.`, 400));
+            }
+            break;
+        case "applicant":
+            if (req.user._id.equals(application.applicantInfo.applicantId)) {
+                application.deletedBy.applicant = true;
+                await application.save();
+            }else{
+                return next(new ErrorHandler(`You are not the owner of this application.`, 400));
+            }
+            break;
+        default:
+            return next(new ErrorHandler(`Invalid role`, 400));
+            break;
+    }
+    if (
+        application.deletedBy.applicant === true &&
+        application.deletedBy.employer === true
+    ) {
+        await application.deleteOne()
+        res.status(200).json({
+            success: true,
+            message: `Application deleted.`,
+        });
+    }
+    res.status(200).json({
+        success: true,
+        message: `Application deleted.`,
+    });
+});
 export const applyApplication = asyncHandler(async (req, res, next) => {});
