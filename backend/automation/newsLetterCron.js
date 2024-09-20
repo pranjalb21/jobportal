@@ -1,13 +1,17 @@
 import cron from "node-cron";
-import { Job } from "../models/job.model";
-import User from "../models/user.model";
-import { sendMail } from "../utils/sendMail";
+import { Job } from "../models/job.model.js";
+import User from "../models/user.model.js";
+import { sendMail } from "../utils/sendMail.js";
+
 export const newsLetterCron = () => {
     cron.schedule("*/1 * * * *", async () => {
-        const jobs = await Job.find({ newsLetterSent: false });
+        console.log(`Automation running`);
+
+        const jobs = await Job.find({ updateSent: false });
         for (const job of jobs) {
             try {
                 const filterdUser = await User.find({
+                    role:"applicant",
                     $or: [
                         { "niches.firstNiche": job.jobNiche },
                         { "niches.secondNiche": job.jobNiche },
@@ -24,9 +28,9 @@ export const newsLetterCron = () => {
                             message,
                         });
                     }
-                    job.newsLetterSent = true;
-                    await job.save();
                 }
+                job.updateSent = true;
+                await job.save();
             } catch (error) {
                 console.log("Error in newsletter automation.");
                 return next(console.error(error || `Error in automation.`));
