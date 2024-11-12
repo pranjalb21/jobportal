@@ -50,8 +50,8 @@ function TopNiches() {
             <div className="grid lg:grid-cols-3 sm:grid-cols-2 gap-5 justify-center">
                 {services.map((service) => (
                     <div key={service.id} className="w-72 rounded-lg bg-red-200 p-4 cursor-default hover:bg-red-300 hover:-translate-y-0.5 duration-200">
-                        <h4 className="text-xl font-bold">{service.service}</h4>
-                        <p>{service.description}</p>
+                        <h4 className="font-bold">{service.service}</h4>
+                        <p className="text-sm">{service.description}</p>
                     </div>
                 ))}
             </div>

@@ -7,7 +7,7 @@ function HowItWorks() {
     const items = [
         {
             title: "Create an Account",
-            element: <LuUserPlus />,
+            element: <LuUserPlus className="text-2xl" />,
             description: `Sign up for a free account as a job seeker or employer.
                         Set up your profile in minutes to start posting jobs or
                         applying for jobs. Customize your profile to highlight
@@ -15,7 +15,7 @@ function HowItWorks() {
         },
         {
             title: "Post or Browse Jobs",
-            element: <VscTasklist />,
+            element: <VscTasklist className="text-2xl" />,
             description: `Employers can post detailed job descriptions, and job
                         seekers can browse a comprehensive list of available
                         positions. Utilize filters to find jobs that match your
@@ -23,7 +23,7 @@ function HowItWorks() {
         },
         {
             title: "Hire or Get Hired",
-            element: <BiSolidLike />,
+            element: <BiSolidLike className="text-2xl" />,
             description: `Employers can shortlist candidates and extend job
                         offers. Job seekers can review job offers and accept
                         positions that align with their career goals.`,
@@ -42,12 +42,12 @@ function HowItWorks() {
             <div className="w-full flex flex-col justify-center items-center gap-3 py-4 px-20">
                 {items.map((item, index) => (
                     <div
-                        className="bg-green-200 w-full p-4 h-32 hover:-translate-y-0.5 hover:bg-green-300 duration-300 rounded-lg cursor-pointer"
+                        className="bg-green-200 w-full p-4 md:h-32 hover:-translate-y-0.5 hover:bg-green-300 duration-300 rounded-lg cursor-default"
                         key={index}
                     >
                         <div className="">{item.element}</div>
-                        <h4>{item.title}</h4>
-                        <p>{item.description}</p>
+                        <h4 className="font-semibold">{item.title}</h4>
+                        <p className="text-sm">{item.description}</p>
                     </div>
                 ))}
             </div>
